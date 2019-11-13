@@ -1,0 +1,8 @@
+.buttons{
+    -fx-background-color: transparent;    
+}
+.buttons:hover{
+    -fx-background-color: #0066ff;
+    -fx-text-fill: #ffffff;
+}
+
