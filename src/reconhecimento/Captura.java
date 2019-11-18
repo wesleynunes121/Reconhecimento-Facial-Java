@@ -32,7 +32,7 @@ import org.bytedeco.javacv.OpenCVFrameGrabber;
  */
 
 public class Captura {
-    public  void capturar (int id) throws FrameGrabber.Exception, InterruptedException{
+    public void capturador (int id) throws FrameGrabber.Exception, InterruptedException{
         KeyEvent tecla = null;
         OpenCVFrameConverter.ToMat converteMat = new OpenCVFrameConverter.ToMat();
         OpenCVFrameGrabber camera =  new OpenCVFrameGrabber(0);
@@ -90,5 +90,6 @@ public class Captura {
         }
         cFrame.dispose();
         camera.stop();
+        camera.close();
     }
 }

@@ -42,7 +42,7 @@ public class ReconhecimentoEigenFaces {
     public static void main (String args[]) throws FrameGrabber.Exception, InterruptedException{
         OpenCVFrameConverter.ToMat converteMat = new OpenCVFrameConverter.ToMat();
         OpenCVFrameGrabber camera =  new OpenCVFrameGrabber(0);
-        String[] pessoas = {"","Wesley","Zilda","Ludimila"};
+        String[] pessoas = {"","Wesley"};
         camera.start();
         
         CascadeClassifier detectorFace = new CascadeClassifier("src\\recursos\\haarcascade-frontalface-alt.xml");
@@ -88,6 +88,7 @@ public class ReconhecimentoEigenFaces {
         
             cFrame.dispose();
             camera.stop();
+            camera.close();
         }
         
     }
