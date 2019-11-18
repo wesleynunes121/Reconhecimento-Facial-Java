@@ -32,7 +32,7 @@ import org.bytedeco.javacv.OpenCVFrameGrabber;
  */
 
 public class Captura {
-    public static void main (String args[]) throws FrameGrabber.Exception, InterruptedException{
+    public  void capturar (int id) throws FrameGrabber.Exception, InterruptedException{
         KeyEvent tecla = null;
         OpenCVFrameConverter.ToMat converteMat = new OpenCVFrameConverter.ToMat();
         OpenCVFrameGrabber camera =  new OpenCVFrameGrabber(0);
@@ -46,10 +46,8 @@ public class Captura {
         Mat imagemColorida =  new Mat();
         int numeroAmostra = 25;
         int amostra = 1;
-        
-        System.out.println("Digite seu id: ");
-        Scanner cadastro = new Scanner(System.in);
-        int idPessoa = cadastro.nextInt();
+       
+        int idPessoa = id;
         
         while ((frameCapturado = camera.grab()) != null){
             imagemColorida = converteMat.convert(frameCapturado);
