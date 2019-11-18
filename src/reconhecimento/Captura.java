@@ -46,9 +46,11 @@ public class Captura {
         Mat imagemColorida =  new Mat();
         int numeroAmostra = 25;
         int amostra = 1;
+        
         System.out.println("Digite seu id: ");
         Scanner cadastro = new Scanner(System.in);
         int idPessoa = cadastro.nextInt();
+        
         while ((frameCapturado = camera.grab()) != null){
             imagemColorida = converteMat.convert(frameCapturado);
             Mat imagemCinza = new  Mat();

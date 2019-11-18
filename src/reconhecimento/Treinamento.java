@@ -26,7 +26,7 @@ import static org.bytedeco.javacpp.opencv_imgproc.resize;
  * @author Wesley
  */
 public class Treinamento {
-    public static void main (String args[]){
+    public void treinar (){
         File diretorio = new File("src\\fotos");
         FilenameFilter filtroImagem = new FilenameFilter() {
 
@@ -50,16 +50,16 @@ public class Treinamento {
             rotulosBuffer.put(contador, classe);
             contador++;
         }
-        FaceRecognizer eigenfaces = createEigenFaceRecognizer(30, 0);
-        FaceRecognizer fisherfaces = createFisherFaceRecognizer(30, 0);
-        FaceRecognizer lbph = createLBPHFaceRecognizer(12,10,15,15,1);
-    
-        
-        eigenfaces.train(fotos, rotulos);
-        eigenfaces.save("src\\recursos\\eigenfaces.yml");
-        fisherfaces.train(fotos, rotulos);
-        fisherfaces.save("src\\recursos\\fisherfaces.yml");
-        lbph.train(fotos, rotulos);
-        lbph.save("src\\recursos\\lbph.yml");
-    } 
+            
+            FaceRecognizer eigenfaces = createEigenFaceRecognizer(30, 0);
+            FaceRecognizer fisherfaces = createFisherFaceRecognizer(30, 0);
+            FaceRecognizer lbph = createLBPHFaceRecognizer(12,10,15,15,1);
+            
+            eigenfaces.train(fotos, rotulos);
+            eigenfaces.save("src\\recursos\\eigenfaces.yml");
+            fisherfaces.train(fotos, rotulos);
+            fisherfaces.save("src\\recursos\\fisherfaces.yml");
+            lbph.train(fotos, rotulos);
+            lbph.save("src\\recursos\\lbph.yml");
+        }
 }
