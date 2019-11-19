@@ -6,6 +6,8 @@
 package controllers;
 
 import br.jeanderson.annotations.DefineConfiguration;
+import br.jeanderson.enums.DialogType;
+import br.jeanderson.util.DialogFX;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -32,6 +34,7 @@ public class TreinarController implements Initializable {
     private void actionTreinar(MouseEvent event) {
         Treinamento t = new Treinamento();
         t.treinar();
+        DialogFX.showMessage("Classificadores foram treinados com sucesso.", "Treinados", DialogType.SUCESS);
     }
     
 }
