@@ -29,6 +29,7 @@ public class HomeController implements Initializable {
     @FXML
     private ScrollPane scrollBase;
     private ControlWindow<CadastroController> telaCadastro;
+    private ControlWindow<TreinarController> telaTreinar;
 
     /**
      * Initializes the controller class.
@@ -36,6 +37,7 @@ public class HomeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.telaCadastro = new ControlWindow<>(CadastroController.class);
+        this.telaTreinar = new ControlWindow<>(TreinarController.class);
     }    
 
     @FXML
@@ -45,6 +47,7 @@ public class HomeController implements Initializable {
 
     @FXML
     private void ActionTreinar(MouseEvent event) {
+        this.setNode(this.telaTreinar.getRoot());
     }
 
     @FXML
