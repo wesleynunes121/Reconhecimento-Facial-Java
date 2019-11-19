@@ -85,6 +85,8 @@ public class Captura {
             }
             
             if (amostra > numeroAmostra){
+                cFrame.dispose();
+                camera.close();
                 break;
             }
         }

@@ -33,6 +33,7 @@ import org.bytedeco.javacv.OpenCVFrameGrabber;
 
 public class Detecção {
     public static void main (String args[]) throws FrameGrabber.Exception, InterruptedException{
+        KeyEvent tecla = null;
         OpenCVFrameConverter.ToMat converteMat = new OpenCVFrameConverter.ToMat();
         OpenCVFrameGrabber camera =  new OpenCVFrameGrabber(0);
         camera.start();
@@ -49,19 +50,28 @@ public class Detecção {
             cvtColor(imagemColorida, imagemCinza, COLOR_BGRA2GRAY);
             RectVector facesDetectadas = new RectVector();
             detectorFace.detectMultiScale(imagemCinza, facesDetectadas, 1.1, 1,0,new Size(150,150), new Size(500,500));
-            
+            if (tecla == null) {
+                tecla = cFrame.waitKey(5);
+            }
                 for(int i=0; i < facesDetectadas.size(); i++){
                 Rect dadosFace = facesDetectadas.get(0);
                 rectangle(imagemColorida, dadosFace, new Scalar(0,0,255,0));
                 Mat faceCapturada = new Mat(imagemCinza, dadosFace);
                 resize(faceCapturada, faceCapturada, new Size(160,160));
+                if (tecla == null) {
+                tecla = cFrame.waitKey(5);
                 }
+                }
+               
             if (cFrame.isVisible()){
                 cFrame.showImage(frameCapturado);
             }
+                      
         }
+        
         cFrame.dispose();
         camera.stop();
+        camera.close();
 }
 
 }
