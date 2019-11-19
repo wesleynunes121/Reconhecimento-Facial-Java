@@ -12,6 +12,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -47,11 +48,11 @@ public class CadastroController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.txtResultado.visibleProperty().bind(this.lbResultado.visibleProperty());
-    }    
+    }
 
     @FXML
     private void actionCapturar(MouseEvent event) {
-        if(!this.txtNome.getText().trim().isEmpty()){
+        if (!this.txtNome.getText().trim().isEmpty()) {
             String nome = this.txtNome.getText();
             Sessao s = Sessao.PEGAR_SESSAO;
             Integer id = (s.getLista_usuarios().getUsuarios().size() + 1);
@@ -60,25 +61,33 @@ public class CadastroController implements Initializable {
             s.salvar_dados_usuarios();
             //faz a parada da captura
             Captura c = new Captura();
-            try {
-                String resposta = c.capturador(id);
-                this.lbResultado.setVisible(true);
-                this.txtResultado.setText(resposta);
-                DialogFX.showMessage("Salvo", "Salvo com sucesso", DialogType.SUCESS);
-            } catch (FrameGrabber.Exception | InterruptedException ex) {
-                Logger.getLogger(CadastroController.class.getName()).log(Level.SEVERE, null, ex);
-                DialogFX.showMessage("Erro", "Houve um erro: "+ex.getMessage(), DialogType.ERRO);
-            }
-        }else{
+            Thread t = new Thread(() -> {
+                try {
+                    String resposta = c.capturador(id);
+                    this.lbResultado.setVisible(true);
+                    this.txtResultado.setText(resposta);
+                    Platform.runLater(() -> {
+                        DialogFX.showMessage("Salvo", "Salvo com sucesso", DialogType.SUCESS);
+                    });
+                } catch (FrameGrabber.Exception | InterruptedException ex) {
+                    Logger.getLogger(CadastroController.class.getName()).log(Level.SEVERE, null, ex);
+                    Platform.runLater(() -> {
+                        DialogFX.showMessage("Erro", "Houve um erro: " + ex.getMessage(), DialogType.ERRO);
+                    });
+                }
+            });
+            t.setDaemon(true);
+            t.start();
+
+        } else {
             DialogFX.showMessage("Digite seu nome primeiro", "Nome vazio", DialogType.WARNING);
-        }        
+        }
     }
-    
-    
-    public void limpar_campos(){
+
+    public void limpar_campos() {
         this.lbResultado.setVisible(false);
         this.txtResultado.setText("");
         this.txtNome.setText("");
     }
-    
+
 }
