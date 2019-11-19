@@ -15,7 +15,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
 /**
@@ -42,6 +41,7 @@ public class HomeController implements Initializable {
 
     @FXML
     private void actionCadastrar(MouseEvent event) {
+        this.telaCadastro.getController().limpar_campos();
         this.setNode(this.telaCadastro.getRoot());
     }
 

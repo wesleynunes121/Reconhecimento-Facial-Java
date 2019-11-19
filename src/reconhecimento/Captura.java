@@ -32,7 +32,8 @@ import org.bytedeco.javacv.OpenCVFrameGrabber;
  */
 
 public class Captura {
-    public void capturador (int id) throws FrameGrabber.Exception, InterruptedException{
+    public String capturador (int id) throws FrameGrabber.Exception, InterruptedException{
+        String resposta = "";
         KeyEvent tecla = null;
         OpenCVFrameConverter.ToMat converteMat = new OpenCVFrameConverter.ToMat();
         OpenCVFrameGrabber camera =  new OpenCVFrameGrabber(0);
@@ -70,6 +71,7 @@ public class Captura {
                     if(tecla.getKeyChar() == 'q'){
                         if (amostra <= numeroAmostra){
                             imwrite("src\\fotos\\pessoa." + idPessoa + "." + amostra + ".jpg", faceCapturada);
+                            resposta += "Foto" + amostra + " capturada\n";
                             System.out.println("Foto" + amostra + " capturada\n");
                             amostra++;
                         }
@@ -93,5 +95,6 @@ public class Captura {
         cFrame.dispose();
         camera.stop();
         camera.close();
+        return resposta;
     }
 }

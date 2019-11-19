@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import reconhecimento.Treinamento;
 
 @DefineConfiguration(url_fxml = "/view/Treinar.fxml")
 public class TreinarController implements Initializable {
@@ -29,7 +30,8 @@ public class TreinarController implements Initializable {
 
     @FXML
     private void actionTreinar(MouseEvent event) {
-        
+        Treinamento t = new Treinamento();
+        t.treinar();
     }
     
 }

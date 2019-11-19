@@ -14,6 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -34,13 +36,17 @@ public class CadastroController implements Initializable {
     private TextField txtNome;
     @FXML
     private AnchorPane apBase;
+    @FXML
+    private Label lbResultado;
+    @FXML
+    private TextArea txtResultado;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        this.txtResultado.visibleProperty().bind(this.lbResultado.visibleProperty());
     }    
 
     @FXML
@@ -48,14 +54,16 @@ public class CadastroController implements Initializable {
         if(!this.txtNome.getText().trim().isEmpty()){
             String nome = this.txtNome.getText();
             Sessao s = Sessao.PEGAR_SESSAO;
-            Integer id = s.getLista_usuarios().getUsuarios().size();
+            Integer id = (s.getLista_usuarios().getUsuarios().size() + 1);
             Usuario user = Usuario.create(id, nome);
             s.getLista_usuarios().getUsuarios().add(user);
             s.salvar_dados_usuarios();
             //faz a parada da captura
             Captura c = new Captura();
             try {
-                c.capturador(id);
+                String resposta = c.capturador(id);
+                this.lbResultado.setVisible(true);
+                this.txtResultado.setText(resposta);
                 DialogFX.showMessage("Salvo", "Salvo com sucesso", DialogType.SUCESS);
             } catch (FrameGrabber.Exception | InterruptedException ex) {
                 Logger.getLogger(CadastroController.class.getName()).log(Level.SEVERE, null, ex);
@@ -63,8 +71,14 @@ public class CadastroController implements Initializable {
             }
         }else{
             DialogFX.showMessage("Digite seu nome primeiro", "Nome vazio", DialogType.WARNING);
-        }
-        
+        }        
+    }
+    
+    
+    public void limpar_campos(){
+        this.lbResultado.setVisible(false);
+        this.txtResultado.setText("");
+        this.txtNome.setText("");
     }
     
 }
