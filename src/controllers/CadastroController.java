@@ -21,9 +21,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import org.bytedeco.javacv.FrameGrabber;
-import reconhecimento.Captura;
-import reconhecimento.Sessao;
-import reconhecimento.Usuario;
+import model.Captura;
+import model.Sessao;
+import model.Usuario;
 
 /**
  * FXML Controller class

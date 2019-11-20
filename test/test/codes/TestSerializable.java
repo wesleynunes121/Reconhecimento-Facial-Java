@@ -5,8 +5,8 @@
  */
 package test.codes;
 
-import reconhecimento.Sessao;
-import reconhecimento.Usuario;
+import model.Sessao;
+import model.Usuario;
 
 /**
  *

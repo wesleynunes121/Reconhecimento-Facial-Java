@@ -1,4 +1,4 @@
-package reconhecimento;
+package model;
 
 import java.awt.event.KeyEvent;
 import java.util.Scanner;
@@ -12,7 +12,7 @@ import org.bytedeco.javacpp.opencv_core.RectVector;
 import org.bytedeco.javacpp.opencv_core.Scalar;
 import org.bytedeco.javacpp.opencv_core.Size;
 import org.bytedeco.javacpp.opencv_face.FaceRecognizer;
-import static org.bytedeco.javacpp.opencv_face.createLBPHFaceRecognizer;
+import static org.bytedeco.javacpp.opencv_face.createEigenFaceRecognizer;
 import static org.bytedeco.javacpp.opencv_imgcodecs.imwrite;
 import static org.bytedeco.javacpp.opencv_imgproc.COLOR_BGRA2GRAY;
 import static org.bytedeco.javacpp.opencv_imgproc.cvtColor;
@@ -38,18 +38,18 @@ import org.bytedeco.javacv.OpenCVFrameGrabber;
  * @author Wesley
  */
 
-public class ReconhecimentoLBPH {
+public class ReconhecimentoEigenFaces {
     public static void main (String args[]) throws FrameGrabber.Exception, InterruptedException{
         OpenCVFrameConverter.ToMat converteMat = new OpenCVFrameConverter.ToMat();
         OpenCVFrameGrabber camera =  new OpenCVFrameGrabber(0);
-        String[] pessoas = {"","Wesley","Zilda","Ludimila"};
+        String[] pessoas = {"","Wesley","","","Wesley","","","Wesley","","","Wesley","",""};
         camera.start();
         
         CascadeClassifier detectorFace = new CascadeClassifier("src\\recursos\\haarcascade-frontalface-alt.xml");
-        FaceRecognizer reconhecedor = createLBPHFaceRecognizer();
-        reconhecedor.load("src\\recursos\\lbph.yml");
-        reconhecedor.setThreshold(700);
-        CanvasFrame cFrame = new CanvasFrame("ReconhecimentoLBPH", CanvasFrame.getDefaultGamma() / camera.getGamma());
+        FaceRecognizer reconhecedor = createEigenFaceRecognizer();
+        reconhecedor.load("src\\recursos\\eigenfaces.yml");
+        reconhecedor.setThreshold(4500);
+        CanvasFrame cFrame = new CanvasFrame("ReconhecimentoEigenFaces", CanvasFrame.getDefaultGamma() / camera.getGamma());
         Frame frameCapturado = null;
         Mat imagemColorida =  new Mat();
        

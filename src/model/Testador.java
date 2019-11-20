@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package reconhecimento;
+package model;
 
 import java.io.File;
 import org.bytedeco.javacpp.DoublePointer;

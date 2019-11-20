@@ -1,9 +1,7 @@
-package reconhecimento;
+package model;
 
 import java.awt.event.KeyEvent;
 import java.util.Scanner;
-import org.bytedeco.javacpp.opencv_core;
-import static org.bytedeco.javacpp.opencv_core.FONT_HERSHEY_PLAIN;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Rect;
 import org.bytedeco.javacpp.opencv_core.RectVector;
@@ -12,7 +10,6 @@ import org.bytedeco.javacpp.opencv_core.Size;
 import static org.bytedeco.javacpp.opencv_imgcodecs.imwrite;
 import static org.bytedeco.javacpp.opencv_imgproc.COLOR_BGRA2GRAY;
 import static org.bytedeco.javacpp.opencv_imgproc.cvtColor;
-import static org.bytedeco.javacpp.opencv_imgproc.putText;
 import static org.bytedeco.javacpp.opencv_imgproc.rectangle;
 import static org.bytedeco.javacpp.opencv_imgproc.resize;
 import org.bytedeco.javacpp.opencv_objdetect.CascadeClassifier;
@@ -34,9 +31,8 @@ import org.bytedeco.javacv.OpenCVFrameGrabber;
  * @author Wesley
  */
 
-public class Captura {
-    public String capturador (int id) throws FrameGrabber.Exception, InterruptedException{
-        String resposta = "";
+public class Detecção {
+    public static void main (String args[]) throws FrameGrabber.Exception, InterruptedException{
         KeyEvent tecla = null;
         OpenCVFrameConverter.ToMat converteMat = new OpenCVFrameConverter.ToMat();
         OpenCVFrameGrabber camera =  new OpenCVFrameGrabber(0);
@@ -45,13 +41,9 @@ public class Captura {
         CascadeClassifier detectorFace;
         detectorFace = new CascadeClassifier("src\\recursos\\haarcascade-frontalface-alt.xml");
         
-        CanvasFrame cFrame = new CanvasFrame("Captura de Imagens", CanvasFrame.getDefaultGamma() / camera.getGamma());
+        CanvasFrame cFrame = new CanvasFrame("Preview", CanvasFrame.getDefaultGamma() / camera.getGamma());
         Frame frameCapturado = null;
         Mat imagemColorida =  new Mat();
-        int numeroAmostra = 25;
-        int amostra = 1;
-        int idPessoa = id;
-        
         while ((frameCapturado = camera.grab()) != null){
             imagemColorida = converteMat.convert(frameCapturado);
             Mat imagemCinza = new  Mat();
@@ -61,7 +53,7 @@ public class Captura {
             if (tecla == null) {
                 tecla = cFrame.waitKey(5);
             }
-            for(int i=0; i < facesDetectadas.size(); i++){
+                for(int i=0; i < facesDetectadas.size(); i++){
                 Rect dadosFace = facesDetectadas.get(0);
                 rectangle(imagemColorida, dadosFace, new Scalar(0,0,255,0));
                 Mat faceCapturada = new Mat(imagemCinza, dadosFace);
@@ -69,35 +61,17 @@ public class Captura {
                 if (tecla == null) {
                 tecla = cFrame.waitKey(5);
                 }
-                if (tecla != null){
-                    if(tecla.getKeyChar() == 'q'){
-                        if (amostra <= numeroAmostra){
-                            imwrite("src\\fotos\\pessoa." + idPessoa + "." + amostra + ".jpg", faceCapturada);
-                            int x = Math.max(dadosFace.tl().x() - 10,0);
-                            int y = Math.max(dadosFace.tl().y() - 10,0);
-                            putText(imagemColorida, "Foto" + amostra + " capturada", new opencv_core.Point(x,y), FONT_HERSHEY_PLAIN, 1.4, new Scalar(0,0,225,0));
-                            amostra++;
-                        }
-                    }
-                    tecla = null;
                 }
-            }
-            if (tecla == null) {
-                tecla = cFrame.waitKey(20);
-            }
+               
             if (cFrame.isVisible()){
                 cFrame.showImage(frameCapturado);
             }
-            
-            if (amostra > numeroAmostra){
-                cFrame.dispose();
-                camera.close();
-                break;
-            }
+                      
         }
+        
         cFrame.dispose();
         camera.stop();
         camera.close();
-        return resposta;
-    }
+}
+
 }

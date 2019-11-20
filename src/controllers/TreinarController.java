@@ -15,7 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import reconhecimento.Treinamento;
+import model.Treinamento;
 
 @DefineConfiguration(url_fxml = "/view/Treinar.fxml")
 public class TreinarController implements Initializable {

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package reconhecimento;
+package model;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -25,9 +25,9 @@ import static org.bytedeco.javacpp.opencv_imgproc.resize;
  *
  * @author Wesley
  */
-public class Avaliação {
-    public static void main (String args[]){
-        File diretorio = new File("src\\faces\\treinamento");
+public class Treinamento {
+    public void treinar (){
+        File diretorio = new File("src\\fotos");
         FilenameFilter filtroImagem = new FilenameFilter() {
 
             @Override
@@ -43,23 +43,23 @@ public class Avaliação {
         int contador = 0;
         for (File imagem: arquivos){
             Mat foto = imread(imagem.getAbsolutePath(), CV_LOAD_IMAGE_GRAYSCALE);
-            int classe = Integer.parseInt(imagem.getName().substring(7,9));
+            int classe = Integer.parseInt(imagem.getName().split("\\.")[1]);
             //System.out.println(classe);
             resize(foto, foto, new Size(160,160));
             fotos.put(contador, foto);
             rotulosBuffer.put(contador, classe);
             contador++;
         }
-        FaceRecognizer eigenfaces = createEigenFaceRecognizer(30, 0);
-        FaceRecognizer fisherfaces = createFisherFaceRecognizer(30, 0);
-        FaceRecognizer lbph = createLBPHFaceRecognizer();
-    
-        
-        eigenfaces.train(fotos, rotulos);
-        eigenfaces.save("src\\recursos\\eigenfacesyale.yml");
-        fisherfaces.train(fotos, rotulos);
-        fisherfaces.save("src\\recursos\\fisherfacesyale.yml");
-        lbph.train(fotos, rotulos);
-        lbph.save("src\\recursos\\lbphyale.yml");
-    } 
+            
+            FaceRecognizer eigenfaces = createEigenFaceRecognizer(30, 0);
+            FaceRecognizer fisherfaces = createFisherFaceRecognizer(30, 0);
+            FaceRecognizer lbph = createLBPHFaceRecognizer(12,10,15,15,1);
+            
+            eigenfaces.train(fotos, rotulos);
+            eigenfaces.save("src\\recursos\\eigenfaces.yml");
+            fisherfaces.train(fotos, rotulos);
+            fisherfaces.save("src\\recursos\\fisherfaces.yml");
+            lbph.train(fotos, rotulos);
+            lbph.save("src\\recursos\\lbph.yml");
+        }
 }
