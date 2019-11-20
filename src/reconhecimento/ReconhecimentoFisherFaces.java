@@ -69,24 +69,23 @@ public class ReconhecimentoFisherFaces {
                 DoublePointer confianca = new DoublePointer(1);
                 reconhecedor.predict(faceCapturada, rotulo, confianca);
                 int predicao = rotulo.get(0);
-                String nome;
-                if (predicao == -1){
-                    nome = "Desconhecido";
-                } else {
-                    nome = pessoas[predicao] + " - " + confianca.get(0);
-                }
-                
                 int x = Math.max(dadosFace.tl().x() - 10,0);
-                int y = Math.max(dadosFace.tl().y() - 10, 0);
-                putText(imagemColorida, nome, new Point(x,y), FONT_HERSHEY_PLAIN, 1.4, new Scalar(0,0,225,0));
-            }
-                if (cFrame.isVisible()){
-                    cFrame.showImage(frameCapturado);
+                int y = Math.max(dadosFace.tl().y() - 10,0);
+                if (predicao == -1){
+                    putText(imagemColorida, "Desconhecido", new Point(x,y), FONT_HERSHEY_PLAIN, 1.4, new Scalar(0,0,225,0));
+                } else {
+                    putText(imagemColorida, pessoas[predicao] + " - " + confianca.get(0), new Point(x,y), FONT_HERSHEY_PLAIN, 1.4, new Scalar(0,255,0,0));
                 }
             }
-        
-            cFrame.dispose();
-            camera.stop();
+                    if (cFrame.isVisible()){
+                    cFrame.showImage(frameCapturado);
+                    } else {
+                    cFrame.dispose();
+                    camera.stop();
+                    camera.close();
+                    break;
+                    }
+            }
         }
         
     }
