@@ -69,9 +69,13 @@ public class ReconhecerController implements Initializable {
     
     private String[] pegar_lista_usuarios(){
         Sessao s = Sessao.PEGAR_SESSAO;
-        String[] nomes = new String[s.getLista_usuarios().getUsuarios().size()];
+        String[] nomes = new String[(s.getLista_usuarios().getUsuarios().size() + 1)];
         for(int i = 0; i < nomes.length; i++){
-            nomes[i] = s.getLista_usuarios().getUsuarios().get(i).getNome();
+            if(i == 0){
+                nomes[i] = "";
+            }else{
+                nomes[i] = s.getLista_usuarios().getUsuarios().get((i - 1)).getNome();
+            }            
         }
         return nomes;
     }
