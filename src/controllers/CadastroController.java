@@ -37,17 +37,12 @@ public class CadastroController implements Initializable {
     private TextField txtNome;
     @FXML
     private AnchorPane apBase;
-    @FXML
-    private Label lbResultado;
-    @FXML
-    private TextArea txtResultado;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.txtResultado.visibleProperty().bind(this.lbResultado.visibleProperty());
     }
 
     @FXML
@@ -63,9 +58,7 @@ public class CadastroController implements Initializable {
             Captura c = new Captura();
             Thread t = new Thread(() -> {
                 try {
-                    String resposta = c.capturador(id);
-                    this.lbResultado.setVisible(true);
-                    this.txtResultado.setText(resposta);
+                    c.capturador(id);
                     Platform.runLater(() -> {
                         DialogFX.showMessage("Salvo", "Salvo com sucesso", DialogType.SUCESS);
                     });
@@ -85,8 +78,6 @@ public class CadastroController implements Initializable {
     }
 
     public void limpar_campos() {
-        this.lbResultado.setVisible(false);
-        this.txtResultado.setText("");
         this.txtNome.setText("");
     }
 

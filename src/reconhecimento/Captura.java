@@ -2,6 +2,8 @@ package reconhecimento;
 
 import java.awt.event.KeyEvent;
 import java.util.Scanner;
+import org.bytedeco.javacpp.opencv_core;
+import static org.bytedeco.javacpp.opencv_core.FONT_HERSHEY_PLAIN;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Rect;
 import org.bytedeco.javacpp.opencv_core.RectVector;
@@ -10,6 +12,7 @@ import org.bytedeco.javacpp.opencv_core.Size;
 import static org.bytedeco.javacpp.opencv_imgcodecs.imwrite;
 import static org.bytedeco.javacpp.opencv_imgproc.COLOR_BGRA2GRAY;
 import static org.bytedeco.javacpp.opencv_imgproc.cvtColor;
+import static org.bytedeco.javacpp.opencv_imgproc.putText;
 import static org.bytedeco.javacpp.opencv_imgproc.rectangle;
 import static org.bytedeco.javacpp.opencv_imgproc.resize;
 import org.bytedeco.javacpp.opencv_objdetect.CascadeClassifier;
@@ -42,12 +45,11 @@ public class Captura {
         CascadeClassifier detectorFace;
         detectorFace = new CascadeClassifier("src\\recursos\\haarcascade-frontalface-alt.xml");
         
-        CanvasFrame cFrame = new CanvasFrame("Preview", CanvasFrame.getDefaultGamma() / camera.getGamma());
+        CanvasFrame cFrame = new CanvasFrame("Captura de Imagens", CanvasFrame.getDefaultGamma() / camera.getGamma());
         Frame frameCapturado = null;
         Mat imagemColorida =  new Mat();
         int numeroAmostra = 25;
         int amostra = 1;
-       
         int idPessoa = id;
         
         while ((frameCapturado = camera.grab()) != null){
@@ -71,8 +73,9 @@ public class Captura {
                     if(tecla.getKeyChar() == 'q'){
                         if (amostra <= numeroAmostra){
                             imwrite("src\\fotos\\pessoa." + idPessoa + "." + amostra + ".jpg", faceCapturada);
-                            resposta += "Foto" + amostra + " capturada\n";
-                            System.out.println("Foto" + amostra + " capturada\n");
+                            int x = Math.max(dadosFace.tl().x() - 10,0);
+                            int y = Math.max(dadosFace.tl().y() - 10,0);
+                            putText(imagemColorida, "Foto" + amostra + " capturada", new opencv_core.Point(x,y), FONT_HERSHEY_PLAIN, 1.4, new Scalar(0,0,225,0));
                             amostra++;
                         }
                     }
