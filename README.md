@@ -1,7 +1,7 @@
 # Reconhecimento-Facial-Java
 Reconhecimento Facial
 
-<==========================================================================================>
+<==============================================================================>
 
 Programa de Reconhecimento Facial feito em Java
 
